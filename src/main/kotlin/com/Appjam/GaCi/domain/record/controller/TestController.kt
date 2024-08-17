@@ -1,6 +1,8 @@
 package com.Appjam.GaCi.domain.record.controller
 
-import com.Appjam.GaCi.domain.record.entity.Record
+import com.Appjam.GaCi.domain.like.entity.Like
+import com.Appjam.GaCi.domain.like.repository.LikeRepository
+import com.Appjam.GaCi.domain.record.entity.PostRecord
 import com.Appjam.GaCi.domain.record.repository.RecordRepository
 import com.Appjam.GaCi.domain.user.entity.User
 import com.Appjam.GaCi.domain.user.repository.UserRepository
@@ -16,7 +18,8 @@ import java.time.LocalDateTime
 class TestController(
     private val recordRepository: RecordRepository,
     private val userRepository: UserRepository,
-    private val fileUploadService: FileUploadService
+    private val fileUploadService: FileUploadService,
+    private val likeRepository: LikeRepository
 ) {
 
     @GetMapping("/form")
@@ -34,16 +37,26 @@ class TestController(
 
         val pictureUrl = fileUploadService.uploadFile(picture, "appjam-27th")
         val currentDateTime = LocalDateTime.now()
-        val record = Record(
+        val record = PostRecord(
             title = recordForm.title,
             description = recordForm.description,
             picture = pictureUrl,
-            writer = user,
+            user = recordForm.writerEmail,
             createdAt = currentDateTime
         )
-        recordRepository.save(record)
+        val savedRecord = recordRepository.save(record)
+
+        // Like 테이블에 기본 엔트리 생성
+        val like = Like(
+            postRecordId = savedRecord.id,  // recordId 설정
+            userId = user.email,                // userId 설정
+            status = true
+        )
+        likeRepository.save(like)
+
         return "redirect:/test/form"
     }
+
 
     @GetMapping("/records")
     fun viewRecords(model: Model): String {
