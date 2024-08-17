@@ -3,6 +3,7 @@ package com.Appjam.GaCi.domain.record.controller
 import com.Appjam.GaCi.domain.record.entity.Record
 import com.Appjam.GaCi.domain.record.repository.RecordRepository
 import com.Appjam.GaCi.domain.record.response.RecordResponse
+import com.Appjam.GaCi.domain.user.repository.UserRepository
 import com.Appjam.GaCi.global.aws.service.FileUploadService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
 @RestController
-@RequestMapping("/api/records")
+@RequestMapping("/records")
 @Tag(name = "Record API", description = "Record 관련 API")
 class RecordController(
-    private val recordRepository: RecordRepository, private val fileUploadService: FileUploadService
+    private val recordRepository: RecordRepository,
+    private val userRepository: UserRepository,
+    private val fileUploadService: FileUploadService
 ) {
 
     @PostMapping
@@ -22,13 +25,20 @@ class RecordController(
     fun createRecord(
         @RequestParam("title") title: String,
         @RequestParam("description") description: String,
-        @RequestParam("picture") picture: MultipartFile
+        @RequestParam("picture") picture: MultipartFile,
+        @RequestParam("writerEmail") writerEmail: String
     ): ResponseEntity<Record> {
-        val pictureUrl = fileUploadService.uploadFile(picture, "appjam-27th")
-        val record = Record(
-            title = title, description = description, picture = pictureUrl
-        )
-        return ResponseEntity.ok(recordRepository.save(record))
+        val writerOptional = userRepository.findByEmail(writerEmail)
+        return if (writerOptional.isPresent) {
+            val writer = writerOptional.get()
+            val pictureUrl = fileUploadService.uploadFile(picture, "appjam-27th")
+            val record = Record(
+                title = title, description = description, picture = pictureUrl, writer = writer
+            )
+            ResponseEntity.ok(recordRepository.save(record))
+        } else {
+            ResponseEntity.badRequest().build()
+        }
     }
 
     @GetMapping
@@ -37,7 +47,11 @@ class RecordController(
         val records = recordRepository.findAll()
         val recordResponses = records.map { record ->
             RecordResponse(
-                id = record.id, title = record.title, description = record.description, pictureUrl = record.picture
+                id = record.id,
+                title = record.title,
+                description = record.description,
+                pictureUrl = record.picture,
+                writerName = record.writer?.name
             )
         }
         return ResponseEntity.ok(recordResponses)

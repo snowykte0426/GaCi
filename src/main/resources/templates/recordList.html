@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Record List</title>
+</head>
+<body>
+<h1>Records</h1>
+<ul>
+    <li th:each="record : ${records}">
+        <strong th:text="${record.title}"></strong> - <span th:text="${record.description}"></span> (Writer: <span
+            th:text="${record.writer.name}"></span>)
+    </li>
+</ul>
+</body>
+</html>
+</body>
+</html>

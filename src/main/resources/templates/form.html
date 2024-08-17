@@ -1,22 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Create Record</title>
 </head>
 <body>
-<form action="/api/records" enctype="multipart/form-data" method="post">
+<form th:action="@{/test/form}" th:object="${recordForm}" method="post" enctype="multipart/form-data">
     <label for="title">Title:</label>
-    <input id="title" name="title" type="text"><br><br>
-
+    <input type="text" id="title" name="title" th:value="*{title}" /><br/>
     <label for="description">Description:</label>
-    <input id="description" name="description" type="text"><br><br>
-
+    <input type="text" id="description" name="description" th:value="*{description}" /><br/>
     <label for="picture">Picture:</label>
-    <input id="picture" name="picture" type="file"><br><br>
-
-    <input type="submit" value="Submit">
+    <input type="file" id="picture" name="picture" /><br/>
+    <button type="submit">Submit</button>
 </form>
-
 </body>
 </html>

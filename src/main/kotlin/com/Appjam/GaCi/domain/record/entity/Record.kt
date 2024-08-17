@@ -2,21 +2,16 @@ package com.Appjam.GaCi.domain.record.entity
 
 import com.Appjam.GaCi.domain.user.entity.User
 import jakarta.persistence.*
-import jakarta.validation.constraints.NotNull
-import java.time.LocalDateTime
 
 @Entity
-@Table(name = "record")
 data class Record(
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Long? = null,
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = 0,
 
-    @NotNull @OneToOne @JoinColumn(name = "user_email", referencedColumnName = "email") var writer: User? = null,
+    val title: String,
 
-    @Column(unique = true) @NotNull val title: String,
+    val description: String,
 
-    @NotNull @Column(name = "description") val description: String,
+    val picture: String,
 
-    @Column(name = "created_at") val createdAt: LocalDateTime = LocalDateTime.now(),
-
-    var picture: String? = null
+    @ManyToOne @JoinColumn(name = "writer_id") val writer: User
 )
