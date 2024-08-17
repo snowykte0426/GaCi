@@ -16,3 +16,4 @@ spring:
     generate-ddl: on
   profiles:
     include: oauth
+JWT_SECRET: ${JWT_SECRET}

@@ -11,13 +11,14 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+import java.time.LocalDateTime
 
 @Controller
 @RequestMapping("/test")
 class TestController(
     private val recordRepository: RecordRepository,
     private val userRepository: UserRepository,
-    private val fileUploadService: FileUploadService,
+    private val fileUploadService: FileUploadService
 ) {
 
     @GetMapping("/form")
@@ -36,8 +37,13 @@ class TestController(
         val user: User = userRepository.findByEmail(email).orElseThrow { IllegalArgumentException("User not found") }
 
         val pictureUrl = fileUploadService.uploadFile(picture, "appjam-27th")
+        val currentDateTime = LocalDateTime.now()
         val record = Record(
-            title = recordForm.title, description = recordForm.description, picture = pictureUrl, writer = user
+            title = recordForm.title,
+            description = recordForm.description,
+            picture = pictureUrl,
+            writer = user,
+            createdAt = currentDateTime
         )
         recordRepository.save(record)
         return "redirect:/test/form"
@@ -52,5 +58,5 @@ class TestController(
 }
 
 data class RecordForm(
-    var title: String = "", var description: String = "", var writerEmail: String = ""
+    var title: String = "", var description: String = ""
 )

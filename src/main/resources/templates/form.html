@@ -1,17 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
-    <title>Create Record</title>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Record 작성 폼</title>
 </head>
 <body>
-<form th:action="@{/test/form}" th:object="${recordForm}" method="post" enctype="multipart/form-data">
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" th:value="*{title}" /><br/>
-    <label for="description">Description:</label>
-    <input type="text" id="description" name="description" th:value="*{description}" /><br/>
-    <label for="picture">Picture:</label>
-    <input type="file" id="picture" name="picture" /><br/>
-    <button type="submit">Submit</button>
+<h1>Record 작성</h1>
+<form action="/test/form" enctype="multipart/form-data" method="post">
+    <div>
+        <label for="title">제목:</label>
+        <input id="title" name="title" required type="text">
+    </div>
+    <div>
+        <label for="description">설명:</label>
+        <textarea id="description" name="description" required></textarea>
+    </div>
+    <div>
+        <label for="picture">파일 업로드:</label>
+        <input accept="image/*" id="picture" name="picture" required type="file">
+    </div>
+    <button type="submit">제출</button>
 </form>
 </body>
 </html>

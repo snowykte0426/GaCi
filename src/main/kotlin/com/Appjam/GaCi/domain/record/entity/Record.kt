@@ -2,6 +2,7 @@ package com.Appjam.GaCi.domain.record.entity
 
 import com.Appjam.GaCi.domain.user.entity.User
 import jakarta.persistence.*
+import java.time.LocalDateTime
 
 @Entity
 data class Record(
@@ -13,5 +14,7 @@ data class Record(
 
     val picture: String,
 
-    @ManyToOne @JoinColumn(name = "writer_id") val writer: User
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+
+    @ManyToOne @JoinColumn(name = "writer_id", nullable = false) val writer: User
 )
