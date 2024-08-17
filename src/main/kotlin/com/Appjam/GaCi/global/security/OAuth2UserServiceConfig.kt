@@ -1,4 +1,4 @@
-package com.Appjam.GaCi.global.security
+/*package com.Appjam.GaCi.global.security
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -11,4 +11,4 @@ class OAuth2UserServiceConfig {
     fun oauth2UserService(): DefaultOAuth2UserService {
         return DefaultOAuth2UserService()
     }
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 package com.Appjam.GaCi.global.jwt
 
 import jakarta.servlet.FilterChain
@@ -14,7 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 @Component
 class JwtRequestFilter(
     private val jwtUtil: JwtUtil,
-    private val userDetailsService: UserDetailsService
+    //private val userDetailsService: UserDetailsService
 ) : OncePerRequestFilter() {
 
     @Throws(ServletException::class, java.io.IOException::class)
@@ -38,14 +39,14 @@ class JwtRequestFilter(
         }
 
         if (username != null && SecurityContextHolder.getContext().authentication == null) {
-            val userDetails = this.userDetailsService.loadUserByUsername(username)
+            //val userDetails = this.userDetailsService.loadUserByUsername(username)
 
-            if (jwt != null && jwtUtil.validateToken(jwt, userDetails.username)) {
+            //if (jwt != null && jwtUtil.validateToken(jwt, userDetails.username)) {
                 //val auth = JwtAuthenticationToken(userDetails, null, userDetails.authorities)
                 //auth.details = WebAuthenticationDetailsSource().buildDetails(request)
                 //SecurityContextHolder.getContext().authentication = auth
             }
         }
-        filterChain.doFilter(request, response)
+        //filterChain.doFilter(request, response)
     }
-}
+//}*/

@@ -5,8 +5,6 @@ import com.Appjam.GaCi.domain.record.repository.RecordRepository
 import com.Appjam.GaCi.domain.user.entity.User
 import com.Appjam.GaCi.domain.user.repository.UserRepository
 import com.Appjam.GaCi.global.aws.service.FileUploadService
-import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.security.oauth2.core.oidc.user.OidcUser
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
@@ -29,12 +27,10 @@ class TestController(
 
     @PostMapping("/form")
     fun submitForm(
-        @ModelAttribute recordForm: RecordForm,
-        @RequestParam("picture") picture: MultipartFile,
-        @AuthenticationPrincipal principal: OidcUser
+        @ModelAttribute recordForm: RecordForm, @RequestParam("picture") picture: MultipartFile
     ): String {
-        val email = principal.email
-        val user: User = userRepository.findByEmail(email).orElseThrow { IllegalArgumentException("User not found") }
+        val user: User = userRepository.findByEmail(recordForm.writerEmail)
+            .orElseThrow { IllegalArgumentException("User not found") }
 
         val pictureUrl = fileUploadService.uploadFile(picture, "appjam-27th")
         val currentDateTime = LocalDateTime.now()
@@ -58,5 +54,5 @@ class TestController(
 }
 
 data class RecordForm(
-    var title: String = "", var description: String = ""
+    var title: String = "", var description: String = "", var writerEmail: String = ""
 )

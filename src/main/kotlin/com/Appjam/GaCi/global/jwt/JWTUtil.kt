@@ -1,3 +1,4 @@
+/*
 package com.Appjam.GaCi.global.jwt
 
 import com.auth0.jwt.JWT
@@ -56,4 +57,4 @@ class JwtUtil {
     private fun extractExpiration(token: String): Date {
         return extractClaim(token, Claims::getExpiration)
     }
-}
+}*/

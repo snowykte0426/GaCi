@@ -1,26 +1,20 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Record 작성 폼</title>
+    <title>Record Form</title>
 </head>
 <body>
-<h1>Record 작성</h1>
-<form action="/test/form" enctype="multipart/form-data" method="post">
-    <div>
-        <label for="title">제목:</label>
-        <input id="title" name="title" required type="text">
-    </div>
-    <div>
-        <label for="description">설명:</label>
-        <textarea id="description" name="description" required></textarea>
-    </div>
-    <div>
-        <label for="picture">파일 업로드:</label>
-        <input accept="image/*" id="picture" name="picture" required type="file">
-    </div>
-    <button type="submit">제출</button>
+<form action="/test/form" method="post" enctype="multipart/form-data">
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title" required><br>
+    <label for="description">Description:</label><br>
+    <textarea id="description" name="description" required></textarea><br>
+    <label for="writerEmail">Writer Email:</label><br>
+    <input type="email" id="writerEmail" name="writerEmail" required><br>
+    <label for="picture">Upload Picture:</label><br>
+    <input type="file" id="picture" name="picture" required><br><br>
+    <button type="submit">Submit</button>
 </form>
 </body>
 </html>
