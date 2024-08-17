@@ -22,11 +22,14 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	/*Swagger*/
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+	/*AWS*/
+	implementation("com.amazonaws:aws-java-sdk-s3:1.12.691")
 	/*Google*/
 	implementation("com.google.api-client:google-api-client:1.32.1")
 	/*Security*/
