@@ -2,22 +2,19 @@ package com.Appjam.GaCi.domain.record.controller
 
 import com.Appjam.GaCi.domain.record.entity.Record
 import com.Appjam.GaCi.domain.record.repository.RecordRepository
+import com.Appjam.GaCi.domain.record.response.RecordResponse
 import com.Appjam.GaCi.global.aws.service.FileUploadService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/api/records")
 @Tag(name = "Record API", description = "Record 관련 API")
 class RecordController(
-    private val recordRepository: RecordRepository,
-    private val fileUploadService: FileUploadService
+    private val recordRepository: RecordRepository, private val fileUploadService: FileUploadService
 ) {
 
     @PostMapping
@@ -29,10 +26,20 @@ class RecordController(
     ): ResponseEntity<Record> {
         val pictureUrl = fileUploadService.uploadFile(picture, "appjam-27th")
         val record = Record(
-            title = title,
-            description = description,
-            picture = pictureUrl
+            title = title, description = description, picture = pictureUrl
         )
         return ResponseEntity.ok(recordRepository.save(record))
+    }
+
+    @GetMapping
+    @Operation(summary = "Get All Records", description = "모든 레코드를 가져옵니다.")
+    fun getAllRecords(): ResponseEntity<List<RecordResponse>> {
+        val records = recordRepository.findAll()
+        val recordResponses = records.map { record ->
+            RecordResponse(
+                id = record.id, title = record.title, description = record.description, pictureUrl = record.picture
+            )
+        }
+        return ResponseEntity.ok(recordResponses)
     }
 }
