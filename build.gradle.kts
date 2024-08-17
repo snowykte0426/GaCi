@@ -32,6 +32,8 @@ dependencies {
 	/*Security*/
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
 
 	testImplementation("org.springframework.security:spring-security-test")
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")

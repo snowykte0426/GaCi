@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class GoogleApiConfig(
-    @Value("\${google.client.id}")
+    @Value("\${GOOGLE_CLIENT_ID}")
     private val clientId: String,
 ) {
     @Bean
