@@ -46,10 +46,9 @@ class TestController(
         )
         val savedRecord = recordRepository.save(record)
 
-        // Like 테이블에 기본 엔트리 생성
         val like = Like(
-            postRecordId = savedRecord.id,  // recordId 설정
-            userId = user.email,                // userId 설정
+            postRecordId = savedRecord.id,
+            userId = user.email,
             status = true
         )
         likeRepository.save(like)
